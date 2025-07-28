@@ -3,7 +3,6 @@ Catatan pembelajaran mengenai Materi CISCO LAB
 
 Outline Materi 
 
-1.IP Address & Subnetting
 2.Networking Model 
 3.Pengenalan & Basic Cisco
 4.Belajar Switch
