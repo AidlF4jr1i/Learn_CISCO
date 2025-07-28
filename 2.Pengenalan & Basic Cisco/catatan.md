@@ -144,4 +144,4 @@ Setelah router dikonfigurasi, jangan lupa atur IP dan **Default Gateway** pada k
 
 ---
 
-Selamat berlatih dan semoga sukses jadi Network Engineer handal! 💻🌐🔧
+Selamat mencoba! 💻🌐🔧
