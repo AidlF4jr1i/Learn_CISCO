@@ -17,3 +17,12 @@ code 200 OK(menandakan bahwa web server mengerti dan memiliki data yang dipinta 
 code 404 Not Found (menandakan bahwa web server tidak memiliki data yang diinginkan oleh komputer
 misal komputer meminta request ke link web "www.wessite.com/about" dan ternyata link "about" tidak tersedia
 di web server sehingga web server tidak bs memberikan data lanjutan )
+
+
+Rincian Simulasi CPT :
+
+1. siapkan satu buah Server dengan IP 192.168.1.1/24
+2. satu buah PC/Laptop dengan IP 192.168.1.2/24
+3. coba ping dari PC ke Server
+4. ubah salah satu laman web yang tersedia di server dengan cara pergi ke menu "Service", cari "index.html", lalu edit sesuai dengan apa yang kamu inginkan
+5. pergi ke sisi PC lalu akses menu "browser", masukkan ip server lalu klik 'Go', amati perubahan yang terjadi
