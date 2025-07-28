@@ -1,1 +1,19 @@
-None
+saat ini semua vendor menggunakan network model yang sama yakni model TCP/IP yang terdiri dari 
+
+1.Application Layer
+2.Transport Layer
+3.Network Layer
+4.Data Link Layer
+5.Physical Layer
+
+A.Application Layer
+
+merupakan layer pertama dalam model TCP/IP layer ini berfungsi sebagai Jembatan antara komputer
+ke Internet/Web browser, cara kerja nya adalah komputer akan mengirimkan beberapa request ke sebuah situs
+lalu web server dari situs tersebut akan memberikan balasan berupa http header yang berisi kode-kode dan juga data yang dipinta.
+adapun beberapa http header code yang umum yakni: 
+
+code 200 OK(menandakan bahwa web server mengerti dan memiliki data yang dipinta oleh komputer)
+code 404 Not Found (menandakan bahwa web server tidak memiliki data yang diinginkan oleh komputer
+misal komputer meminta request ke link web "www.wessite.com/about" dan ternyata link "about" tidak tersedia
+di web server sehingga web server tidak bs memberikan data lanjutan )
