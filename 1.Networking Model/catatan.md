@@ -1,99 +1,135 @@
-saat ini semua vendor menggunakan network model yang sama yakni model TCP/IP yang terdiri dari 
+# Model Jaringan TCP/IP
 
-1.Application Layer
-2.Transport Layer
-3.Network Layer
-4.Data Link Layer
-5.Physical Layer
+Saat ini, semua vendor menggunakan model jaringan **TCP/IP** yang terdiri dari lima layer berikut:
 
-A.Application Layer
+1. **Application Layer**
+2. **Transport Layer**
+3. **Network Layer**
+4. **Data Link Layer**
+5. **Physical Layer**
 
-merupakan layer pertama dalam model TCP/IP layer ini berfungsi sebagai Jembatan antara komputer
-ke Internet/Web browser, cara kerja nya adalah komputer akan mengirimkan beberapa request ke sebuah situs
-lalu web server dari situs tersebut akan memberikan balasan berupa http header yang berisi kode-kode dan juga data yang dipinta.
-adapun beberapa http header code yang umum yakni: 
+---
 
-code 200 OK(menandakan bahwa web server mengerti dan memiliki data yang dipinta oleh komputer)
-code 404 Not Found (menandakan bahwa web server tidak memiliki data yang diinginkan oleh komputer
-misal komputer meminta request ke link web "www.wessite.com/about" dan ternyata link "about" tidak tersedia
-di web server sehingga web server tidak bs memberikan data lanjutan )
+## A. Application Layer
 
+Layer pertama dalam model TCP/IP yang berfungsi sebagai jembatan antara komputer dengan layanan internet seperti web browser.
 
-Rincian Simulasi CPT :
+### Cara Kerja:
+Komputer mengirimkan request ke situs web. Web server kemudian membalas dengan HTTP header yang berisi kode status dan data yang diminta.
 
-1. siapkan satu buah Server dengan IP 192.168.1.1/24
-2. satu buah PC/Laptop dengan IP 192.168.1.2/24
-3. coba ping dari PC ke Server
-4. ubah salah satu laman web yang tersedia di server dengan cara pergi ke menu "Service", cari "index.html", lalu edit sesuai dengan apa yang kamu inginkan
-5. pergi ke sisi PC lalu akses menu "browser", masukkan ip server lalu klik 'Go', amati perubahan yang terjadi
+### Contoh HTTP Header Code:
+- **200 OK**: Web server mengerti dan memiliki data yang diminta oleh komputer.
+- **404 Not Found**: Web server tidak memiliki data yang diminta. Misalnya, jika komputer meminta `www.website.com/about` tetapi halaman "about" tidak tersedia di server.
 
-B. Transport Layer
-Transport Layer ini berfungsi sebagai pemberi Service ke Application Layer, service yang diberikan lebih ke sisi TCP nya yakni dikenal dengan nama "Error Recovery Mechanism"
-cara kerjanya adalah web server akan memberikan data-data yang di request oleh komputer secara 'sequence' (satu per satu), bila di sequence tertentu terjadi galat seperti internet mati dll, maka web server akan mengirimkan ulang 'sequence' yang tertinggal ketika 
-internet nya sudah kembali normal jadi bukan mengirimkan ulang semua data tapi hanya data yang terputus saja.
+### Simulasi di Cisco Packet Tracer (CPT):
+1. Siapkan sebuah server dengan IP: `192.168.1.1/24`
+2. Siapkan satu PC/laptop dengan IP: `192.168.1.2/24`
+3. Lakukan `ping` dari PC ke Server
+4. Ubah konten halaman web pada server melalui menu **Services > HTTP > index.html**, lalu edit sesuai keinginan.
+5. Dari PC, buka menu **Web Browser**, masukkan IP server, klik **Go**, dan amati perubahan.
 
-C.Network layer
+---
 
-pada lyer ini hanya ada satu Service yang digunakan yakni "IP" dimana "IP" ini memiliki 2 fungsi penting
-yakni untuk "Routing" dan juga "Addressing", IP terdiri dari 2 Jenis yakni IPV4 dan IPV6, dengan yang paling umum digunakan adalah IPV4,
+## B. Transport Layer
 
-1.Addressing
-Addressing merupakan fungsi/nama  lain dari "IP" itu sendiri yang mana bertugas untuk "memberikan nama" ke masing-masing komputer agar bisa saling berkomunikasi
+Berfungsi memberikan layanan ke Application Layer, khususnya dalam pengiriman data yang andal menggunakan **TCP (Transmission Control Protocol)**.
 
-contoh 
+### Fitur Utama:
+- **Error Recovery Mechanism**: Data dikirim dalam bentuk urutan (sequence). Jika terjadi gangguan (misalnya koneksi internet terputus), hanya bagian data yang gagal dikirim ulang.
 
-komputer 1(192.168.1.1)  ; Komputer 2(192.168.1.2), disini ketika Komputer 2 ingin berkomunikasi dengan komputer satu maka yang akan digunakan adalah IP "192.168.1.1" yang mana merupakan nama / address dari komputer tersebut
+📷 Gambar simulasi: [Link Gambar](https://drive.google.com/open?id=1KaXyFPqLIU9APXhi6f4D1ZBnDi7ZF7bi&usp=drive_fs)
 
-2. Routing
-Routing merupakan fungsi utama yang ada pada layer ini dan dimiliki ole device "Router" prinsip atau cara kerja nya mirip seperti Kantor Pos, dimana ketika kita ingin mengirimkan suatu data ke suatu tempat maka router akan menentukan jalur tercepat berdasarkan routing yang di buat sehingga akses data dapat 
-dilakukan dengan efisien
+---
 
-D. Data Link Layer
-data Link layer berfungsi untuk mendefinisikan protokol yang akan digunakan pada Physical Layer, salah satu service yang ada pada layer ini adalah "FCS(Frame Check Sequence)" yang berfungsi sebagai error Detecetion , namun cara kerjanya sedikit berbeda dengan "Error Recovery Mechanism" yang ada pada "Transport Layer". dimana FCS itu hanya bisa mendeteksi adanya error tetapi tidak bisa melakukan recovery sehingga antara layer ini dengan Transport layer memiliki hubungan yang saling melengkapi dimana ketika layer Data link mendeteksi adanya error maka layer Transport akan memperbaiki error tersebut dengana mekanisme nya.
+## C. Network Layer
 
-E. Physical Layer
+Menyediakan dua layanan utama: **Addressing** dan **Routing**. Protokol utama yang digunakan adalah **IP (Internet Protocol)**, terdiri dari IPv4 dan IPv6.
 
-layer ini merupakan tampilan luar yang terlihat dan bisa dipegang secara real oleh kita seperti Laptop/PC, Kabel LAN, Router , dan hardware-hardware lain yang membentuk sebuah jaringan Komputer.
+### 1. Addressing:
+Memberikan identitas unik (IP Address) ke setiap perangkat jaringan agar dapat saling berkomunikasi.
 
-Tambahan:
+Contoh:
+- Komputer 1: `192.168.1.1`
+- Komputer 2: `192.168.1.2`
 
-1.Encapsulation & Decapsulation
+Komputer 2 dapat mengakses Komputer 1 menggunakan alamat `192.168.1.1`.
 
--Encapsulation adalah proses dimana komputer pengirim(sender) membungkus data yang ingin dikirimkan menggunakan beberapa header lalu diakhir akan diconvert ke dalam bentuk Biner
+### 2. Routing:
+Routing dilakukan oleh perangkat **Router** yang berfungsi menentukan jalur tercepat untuk pengiriman data, seperti sistem kantor pos yang mengarahkan surat.
 
-- Decapsulation adalah proses dimana komputer penerima(receiver) akan membuka "Bungkus" dari Biner yang diberikan oleh Komputer(sender), lalu menghapus semua header yang ada sampai tersisa hanya 'data' nya saja.
+📷 Gambar simulasi: [Link Gambar](https://drive.google.com/open?id=1km53Hs5ueG6-JAIsRk4ZuUgw3xmique2&usp=drive_fs)
 
-contoh simulasi proses :
+---
 
-#Encapsulation --> "Data" --> |TCP| DATA| --> |IP| |TCP| DATA| --> |Data Link(Header)| |IP| |TCP| |DATA| |Data Link(Tryler)| ---> Biner(1000101) -------> #Decapsulation 1000101 --> |Data Link(Header)| |IP| |TCP| |DATA| |Data Link(Tryler)| --> |IP| |TCP| DATA| ---> |TCP| DATA| --> "Data"
+## D. Data Link Layer
 
+Berfungsi mendefinisikan protokol pada layer fisik. Salah satu layanannya adalah **FCS (Frame Check Sequence)**.
 
-2. Name of TCP/IP Message
+### Fitur:
+- **FCS** berfungsi sebagai **Error Detection**.
+- Tidak memperbaiki error, hanya mendeteksi. Untuk perbaikan, digunakan mekanisme dari Transport Layer.
 
-- Data --> Data
-- |TCP| DATA| --> Segment
-- |IP| |TCP| DATA| --> IP Packet
-- |Data Link(Header)| |IP| |TCP| |DATA| |Data Link(Tryler)| --> Frame
-- BINER(BIT)
+---
 
-3. TCP/IP vs OSI layer
+## E. Physical Layer
 
-TCP/IP Merupakan versi lebih ringkas dari OSI Layer dimana di OSI 3 Layer awal itu dimulai dari Application --> Presentation --> dan Session , sementara di TCP/IP itu dijadikan satu Application Layer saja sehingga membuat proses nya lebih cepat dan efisien, namun keunggulan dari OSI layer adalah karena OSI layer ini lebih mudah dipahami mekanisme nya dan cocok digunakn untuk pembelajaran awal. selain itu OSI Layer juga memiliki penamaan yang berbeda dengan TCP/IP berikut perbandingannya: 
+Layer paling bawah dalam model TCP/IP. Merupakan elemen jaringan yang bisa dilihat dan disentuh secara fisik.
 
-Name of TCP/IP Message:
+### Contoh:
+- Laptop/PC
+- Kabel LAN
+- Router
+- Perangkat keras lainnya
 
-- Data 
-- Transport --> Segment
-- Network --> IP Packet
-- Data Link --> Frame
-- Physical(BINER(BIT))
+---
 
-Name of OSI Message:
+## Tambahan Materi
 
-- Application --> Layer7PDU
-- Presentation --> Layer6PDU
-- Session --> Layer5PDU
-- Transport --> Layer4PDU
-- Network --> Layer3PDU
-- Data Link --> Layer2PDU
-- Physical(BINER(BIT))
+### 1. Encapsulation & Decapsulation
+
+- **Encapsulation**: Proses membungkus data oleh komputer pengirim ke dalam beberapa header dan diubah menjadi bentuk biner.
+- **Decapsulation**: Proses komputer penerima membuka dan membuang header sampai hanya menyisakan data utama.
+
+#### Contoh Proses:
+
+```
+Encapsulation:
+"Data" → |TCP|DATA| → |IP||TCP|DATA| → |Data Link Header||IP||TCP||DATA||Data Link Trailer| → Biner (1000101)
+
+Decapsulation:
+Biner (1000101) → |Data Link Header||IP||TCP||DATA||Data Link Trailer| → |IP||TCP|DATA| → |TCP|DATA| → "Data"
+```
+
+📷 Gambar simulasi: [Link Gambar](https://drive.google.com/open?id=1zIOwlwgf4CFfmGzov2S2my4RIfrTOppL&usp=drive_fs)
+
+---
+
+### 2. Nama Unit Data dalam TCP/IP
+
+| Layer          | Nama Unit Data    |
+|----------------|-------------------|
+| Application    | Data              |
+| Transport      | Segment           |
+| Network        | Packet (IP Packet)|
+| Data Link      | Frame             |
+| Physical       | Bit (Biner)       |
+
+---
+
+### 3. TCP/IP vs OSI Model
+
+- TCP/IP adalah versi ringkas dari OSI Layer.
+- Pada OSI, tiga layer teratas adalah Application, Presentation, dan Session, sedangkan TCP/IP menggabungkannya menjadi satu layer: Application Layer.
+- OSI lebih cocok untuk pembelajaran karena lebih detail dan mudah dipahami.
+
+#### Perbandingan Unit Data TCP/IP vs OSI:
+
+| Layer (TCP/IP)     | Unit Data         | Layer (OSI)       | Unit Data         |
+|--------------------|-------------------|--------------------|-------------------|
+| Application        | Data              | Application (L7)   | Layer7PDU         |
+| Transport          | Segment           | Presentation (L6)  | Layer6PDU         |
+| Network            | Packet            | Session (L5)       | Layer5PDU         |
+| Data Link          | Frame             | Transport (L4)     | Layer4PDU         |
+| Physical           | Bit               | Network (L3)       | Layer3PDU         |
+|                    |                   | Data Link (L2)     | Layer2PDU         |
+|                    |                   | Physical (L1)      | Bit (Biner)       |
