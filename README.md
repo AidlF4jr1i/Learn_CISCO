@@ -9,6 +9,7 @@ Repositori ini merupakan kumpulan catatan pembelajaran seputar **Materi Praktiku
 
 Berikut adalah daftar materi yang disusun secara bertahap agar memudahkan proses belajar:
 
+# Basic
 1. **Networking Model**  
    Memahami model jaringan OSI dan TCP/IP sebagai pondasi utama dalam dunia jaringan.
 
@@ -33,6 +34,7 @@ Berikut adalah daftar materi yang disusun secara bertahap agar memudahkan proses
 8. **Port Security**  
    Proteksi pada port switch untuk mencegah akses ilegal dari perangkat asing.
 
+# Intermediate
 9. **Spanning Tree Protocol (STP)**  
    Mencegah loop di jaringan layer 2 dengan konsep root bridge dan path cost.
 
@@ -51,6 +53,7 @@ Berikut adalah daftar materi yang disusun secara bertahap agar memudahkan proses
 14. **Dynamic Routing – BGP**  
     Mengenal **Border Gateway Protocol** yang umum digunakan di ISP dan antar-AS.
 
+# Advanced
 15. **Access Control List (ACL)**  
     Dasar penyaringan lalu lintas jaringan dengan ACL.
 
@@ -72,7 +75,7 @@ Berikut adalah daftar materi yang disusun secara bertahap agar memudahkan proses
 ---
 
 📌 **Catatan:**  
-Semua materi disusun secara praktis dan disertai contoh simulasi di Cisco Packet Tracer agar mudah dipahami.  
+Semua materi disusun secara praktis dari Basic --> Advanced dan disertai contoh simulasi di Cisco Packet Tracer agar mudah dipahami.  
 silahkan mencoba sendiri setiap konfigurasi agar semakin paham 💪
 
 ---
