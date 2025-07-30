@@ -74,7 +74,13 @@ default-router 192.168.30.1
 dns-server 8.8.8.8
 ```
 
-> DHCP akan memberikan IP sesuai VLAN masing-masing jika topologi dan VLAN sudah benar.
+> DHCP akan memberikan IP sesuai VLAN masing-masing jika topologi dan VLAN sudah benar.  
+> 
+> **🔔 NOTE:** Pastikan interface switch yang mengarah ke router sudah dalam mode `trunk`, dengan cara:
+> ```bash
+> int <nama_interface_switch_yang_mengarah_ke_router>
+> switchport mode trunk
+> ```
 
 ---
 
