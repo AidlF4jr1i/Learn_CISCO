@@ -129,4 +129,4 @@ Switch(config-if)# switchport port-security violation shutdown
 
 Semoga dokumentasi ini membantumu memahami dan menerapkan **Port Security** & **MAC Sticky** di Cisco Switch secara **efektif dan aman** 🔐✨
 
-🔨🤖🔧 Kalau ada yang masih bingung, tinggal tanya aja ya!
+🔨🤖🔧 Kalau ada yang masih bingung, tinggal tanya aja via email di profil ya!
