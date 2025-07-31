@@ -1,9 +1,5 @@
 # 📡 Port Security & MAC Address Sticky on Cisco Switch
 
-Selamat datang di dokumentasi interaktif konfigurasi **Port Security** dan **MAC Address Sticky** pada perangkat **Cisco Switch**! Panduan ini akan menjelaskan konsep, kasus penggunaan, serta perintah konfigurasi yang digunakan. Kamu akan belajar cara mencegah akses ilegal pada jaringan lokal melalui port-port switch yang rentan.
-
----
-
 ## 🔐 Apa Itu Port Security?
 
 **Port Security** adalah metode untuk mengamankan port/interface di switch Cisco dari perangkat asing yang tidak dikenal. Misalnya:
