@@ -1,45 +1,136 @@
-# Port security
+# 📡 Port Security & MAC Address Sticky on Cisco Switch
 
-Port security adalah suatu metode untuk mengamankan sebuah port/interface yang dalam hal ini adalah port/interface CISCO Switch, kita ambil permisalan kasus dimana dalam sebuah jaringan yang terdiri dari 3 server dan 1 PC yang terhubung ke dalam 1 Switch, lalu ada hacker yang mencabut salah satu kabel server dan menyambungkannya ke komputer miliknya untuk mengambil semua info yg ada pada switch, nah fungsi port security adlaah untuk melakukan blok/ menshutdown akses terhadap sebuah interface yang terhubung ke device yang tidak terdaftar sehingga device tersebut tidak bisa melakukan apapun.
+Selamat datang di dokumentasi interaktif konfigurasi **Port Security** dan **MAC Address Sticky** pada perangkat **Cisco Switch**! Panduan ini akan menjelaskan konsep, kasus penggunaan, serta perintah konfigurasi yang digunakan. Kamu akan belajar cara mencegah akses ilegal pada jaringan lokal melalui port-port switch yang rentan.
 
+---
 
-CASE port Security
+## 🔐 Apa Itu Port Security?
 
-pada Case ini kita akan menggunakan 3 server 1 Switch, dan 1 PC serta 1 laptop yang mana satu laptop akan kita jadikan sebagai pengujian port security(anggapannya seperti Hacker)
+**Port Security** adalah metode untuk mengamankan port/interface di switch Cisco dari perangkat asing yang tidak dikenal. Misalnya:
 
+> Dalam sebuah jaringan terdapat 3 server dan 1 PC yang terhubung ke sebuah switch. Jika seorang hacker mencabut kabel dari salah satu server dan menyambungkannya ke laptopnya, ia bisa mencoba mengakses informasi jaringan. Nah, *Port Security* mencegah hal ini dengan melakukan pemblokiran (block) atau *shutdown* pada port yang terdeteksi digunakan oleh perangkat tidak dikenal.
 
-nah kita akan melakukan port security untuk interface fa0/1 yang terhubung ke server 1 dengan menjalankan command :
+---
 
-- int fa0/1
-- switchport mode access
-- switchport port-security 
-- switchport port-security mac-address <mac address Server(kalau di CPT bisa dilihat di menu 'config' fast-ethernet)>
-- switchport port-security maximum <angka maksimum komputer yang dapat terhubung ke satu interface>  
-- switchport port-security violation <jenis action yang kita inginkan>, contoh "switchport port-security violation shutdown"
+## ⚙️ Studi Kasus Port Security
 
-note: "port security memiliki beberapa action untuk violation mulai dari 'restrict', 'protect', dan 'shutdown'"
+### **📦 Topologi:**
+- 3 Server
+- 1 Switch
+- 1 PC
+- 1 Laptop (Disimulasikan sebagai Hacker)
 
+### **🎯 Tujuan:**
+Mengamankan interface `fa0/1` yang terhubung ke Server 1, agar hanya MAC Address server tersebut yang diizinkan.
 
-next kita akan coba lakukan pengujian dengan memindahkan port server 1 ke Laptop, lalu melakukan ping ke salah satu server atau PC, berikut hasilnya : https://drive.google.com/open?id=1vEzzhrFuyJu2iStEDV3jyj35Kq5JBch5&usp=drive_fs
+### **🧪 Langkah Konfigurasi Port Security pada Interface `fa0/1`:**
 
-# MAC Address Sticky
+```bash
+Switch> enable
+Switch# configure terminal
+Switch(config)# interface fa0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport port-security 
+Switch(config-if)# switchport port-security mac-address <MAC address Server>
+Switch(config-if)# switchport port-security maximum <jumlah device yang diizinkan>
+Switch(config-if)# switchport port-security violation shutdown
+```
 
-Mac-address Sticky adalah salah satu cara yang digunakan untuk menghindari kesalahan manusia(human error), ketika mengkonfigurasi port security terutama dibagian memasukkan mac-address, cara kerja mac-address sticky adalah setelah dikonfigurasi dia akan lgsng mencatat mac-address pada device yang terhubung ketika device tersebut melakukan sebuah komunikasi, kalau belum melakukan komunikasi apa-apa maka mac-address sticky tidak akan mencatat apa-apa, cara mengkonfigurasi nya pada case kita adalah sebagai berikut:
+> 🔎 **Catatan:**
+>
+> Untuk melihat MAC Address di Cisco Packet Tracer:
+> - Buka device
+> - Pilih tab `Config` → `FastEthernet` → Lihat `MAC Address`
 
-note: kita akan mengkonfigurasi di Switch 2:
+> ✅ *Violation Mode* yang tersedia:
+> - `shutdown`: Mematikan interface jika terjadi pelanggaran
+> - `restrict`: Memblokir perangkat asing dan mencatat pelanggaran
+> - `protect`: Memblokir perangkat asing TANPA mencatat pelanggaran
 
+---
 
-- int fa0/2
-- switchport mode access
-- switchport port-security 
-- switchport port-security mac-address sticky
-- switchport port-security maximum <angka maksimum komputer yang dapat terhubung ke satu interface>  
-- switchport port-security violation <jenis action yang kita inginkan>, contoh "switchport port-security violation shutdown"
+## 🔬 Uji Coba Pelanggaran
 
-- do sh port-security int <nama interface yang dikonfig port-security>, contoh: do sh port-security int fa0/2
+Setelah konfigurasi selesai, coba cabut kabel dari Server 1 dan sambungkan ke Laptop (hacker). Kemudian lakukan perintah `ping` ke salah satu server atau PC lain.
 
-# Violation Protect
-berbeda dengan shutdown, Violation Protect bekerja dengan memblokir packet-packet yang bukan dari komputer/erver yang terdaftar sambil menjaga interface nya tetap-up sehingga ketika sudah kembali ke device yang terdaftar maka device tersebut dapat langsung berkomunikasi secara normal, selain itu pada protect ini dia tidak akan menambah "Security Violation Count" yang mana ini merupakan hitungan percobaan mengenai berapa kali penyusup berusaha mengirimkan packet. cara konfig nya sama seperti sebelumnya yang membedakan adalah di bagian command violation nya saja yakni harus di command "switchport port-security violation protect"
+🔗 [Contoh hasil uji coba (Video)](https://drive.google.com/open?id=1vEzzhrFuyJu2iStEDV3jyj35Kq5JBch5&usp=drive_fs)
 
-# Violation Restrict
-Violation Restrict bekerja dengan cara yang mirip dengan vioaltion protect yakni dengan memblokir packet-packet yang bukan dari komputer/erver yang terdaftar sambil menjaga interface nya tetap-up sehingga ketika sudah kembali ke device yang terdaftar maka device tersebut dapat langsung berkomunikasi secara normal, selain itu pada restrict ini dia  akan menambah "Security Violation Count" yang mana ini merupakan hitungan percobaan mengenai berapa kali penyusup berusaha mengirimkan packet.cara konfig nya sama seperti sebelumnya yang membedakan adalah di bagian command violation nya saja yakni harus di command "switchport port-security violation restrict"
+---
+
+## 🧠 Apa Itu MAC Address Sticky?
+
+**MAC Address Sticky** adalah fitur yang secara otomatis menyimpan MAC Address dari device yang pertama kali terkoneksi dan mengirim traffic ke port switch.
+
+> Jadi kamu tidak perlu input manual MAC Address!
+
+Namun, MAC address baru hanya akan direkam jika device tersebut aktif mengirimkan paket.
+
+---
+
+## 🧪 Konfigurasi MAC Address Sticky (Contoh: interface `fa0/2` di Switch 2):
+
+```bash
+Switch> enable
+Switch# configure terminal
+Switch(config)# interface fa0/2
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport port-security 
+Switch(config-if)# switchport port-security mac-address sticky
+Switch(config-if)# switchport port-security maximum <jumlah device>
+Switch(config-if)# switchport port-security violation shutdown
+```
+
+### 👀 Cek hasil konfigurasi sticky:
+```bash
+Switch# do show port-security interface fa0/2
+```
+
+---
+
+## ⚠️ Mode Pelanggaran: Perbedaan Protect, Restrict, dan Shutdown
+
+### 🔐 1. Violation Mode: **Protect**
+- **Memblokir** semua paket dari perangkat asing
+- Interface **tetap aktif (up)**
+- Tidak menambah **Security Violation Count**
+
+```bash
+Switch(config-if)# switchport port-security violation protect
+```
+
+---
+
+### 🚨 2. Violation Mode: **Restrict**
+- Sama seperti *protect*, tetapi:
+- **Menambah** `Security Violation Count`
+- Cocok jika kamu ingin memonitor percobaan intrusi
+
+```bash
+Switch(config-if)# switchport port-security violation restrict
+```
+
+---
+
+### 💣 3. Violation Mode: **Shutdown**
+- Interface langsung dinonaktifkan (shutdown) saat pelanggaran terjadi
+- Harus di-*reset* secara manual (atau menggunakan auto recovery)
+
+```bash
+Switch(config-if)# switchport port-security violation shutdown
+```
+
+---
+
+## 📘 Kesimpulan
+
+| Mode | Interface | Packet Asing | Hitung Violation | Keterangan |
+|------|-----------|--------------|------------------|------------|
+| Shutdown | Down | ❌ Blok | ✅ Ya | Aman, tapi ekstrem |
+| Restrict | Up | ❌ Blok | ✅ Ya | Aman dan tercatat |
+| Protect | Up | ❌ Blok | ❌ Tidak | Aman, tidak tercatat |
+
+---
+
+Semoga dokumentasi ini membantumu memahami dan menerapkan **Port Security** & **MAC Sticky** di Cisco Switch secara **efektif dan aman** 🔐✨
+
+🔨🤖🔧 Kalau ada yang masih bingung, tinggal tanya aja ya!
