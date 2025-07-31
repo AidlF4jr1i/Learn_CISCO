@@ -49,7 +49,7 @@ Switch(config-if)# switchport port-security violation shutdown
 
 Setelah konfigurasi selesai, coba cabut kabel dari Server 1 dan sambungkan ke Laptop (hacker). Kemudian lakukan perintah `ping` ke salah satu server atau PC lain.
 
-🔗 [Contoh hasil uji coba (Video)](https://drive.google.com/open?id=1vEzzhrFuyJu2iStEDV3jyj35Kq5JBch5&usp=drive_fs)
+🔗 [Contoh hasil uji coba (foto)](https://drive.google.com/open?id=1vEzzhrFuyJu2iStEDV3jyj35Kq5JBch5&usp=drive_fs)
 
 ---
 
