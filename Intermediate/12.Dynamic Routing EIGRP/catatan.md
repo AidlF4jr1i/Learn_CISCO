@@ -139,21 +139,22 @@ conf t
 int fa1/0.5
  encapsulation dot1q 5
  ip address 192.168.5.1 255.255.255.0
-exit
-int fa1/0.6
- encapsulation dot1q 6
- ip address 192.168.6.1 255.255.255.0
-exit
 
 ip dhcp pool VLAN5
  network 192.168.5.0 255.255.255.0
  default-router 192.168.5.1
  dns-server 8.8.8.8
+exit
+
+int fa1/0.6
+ encapsulation dot1q 6
+ ip address 192.168.6.1 255.255.255.0
 
 ip dhcp pool VLAN6
  network 192.168.6.0 255.255.255.0
  default-router 192.168.6.1
  dns-server 8.8.8.8
+exit
 ```
 
 ### ⚙️ Konfigurasi Switch:
