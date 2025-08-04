@@ -182,7 +182,7 @@ int fa0/2
 end
 ```
 
-### 📡 Tambahan EIGRP untuk VLAN:
+### 📡 Tambahan EIGRP untuk VLAN(Hanya untuk Router 4 saja!!):
 
 ```shell
 router eigrp 11
