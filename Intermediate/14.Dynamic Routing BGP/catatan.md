@@ -16,7 +16,7 @@ Sebelum menyelami BGP, penting untuk memahami dua kategori utama protokol routin
 2.  **Exterior Gateway Protocol (EGP)**: Protokol ini bertugas menghubungkan satu AS dengan AS lainnya. Inilah yang membentuk internet seperti yang kita kenal, memungkinkan jaringan milik Telkomsel terhubung dengan jaringan Google, dan seterusnya.
     * **Satu-satunya Protokol**: Saat ini, satu-satunya protokol EGP yang digunakan secara masif adalah **BGP**.
 
-> **Penasaran?** Anda bisa melihat bagaimana BGP bekerja di dunia nyata! Kunjungi situs seperti [bgp.he.net](https://bgp.he.net) dan masukkan nama ISP Anda. Anda akan melihat nomor AS milik ISP tersebut dan AS-AS lain yang terhubung dengannya.
+> **Penasaran?** Anda bisa melihat bagaimana BGP bekerja di dunia nyata! Kunjungi situs seperti [bgp.he.net](https://bgp.he.net) dan anda akan langsung melihat nama ISP yang anda gunakan. Anda akan melihat nomor AS milik ISP tersebut dan AS-AS lain yang terhubung dengannya.
 
 ---
 
