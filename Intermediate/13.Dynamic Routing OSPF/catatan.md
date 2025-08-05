@@ -1,4 +1,4 @@
-# OSPF
+# Konsep OSPF
 Selamat datang di panduan konfigurasi **OSPF (Open Shortest Path First)**! 
 
 OSPF adalah protokol **Link-State** yang berstandar terbuka (**Open Standard**), artinya dapat digunakan di perangkat router dari berbagai vendor, tidak seperti **EIGRP** yang merupakan proprietary Cisco. Tujuan utama OSPF adalah agar setiap router dalam jaringan dapat "mempelajari" topologi jaringan secara mandiri dan dinamis, sehingga ketika ada penambahan jaringan baru atau perubahan, semua router akan secara otomatis memperbarui tabel routing mereka.
