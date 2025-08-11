@@ -1,151 +1,143 @@
-# Network Address Translation (NAT)
+# Network Address Translation (NAT): Gerbang Menuju Internet
 
-NAT (**Network Address Translation**) adalah salah satu metode yang digunakan untuk menerjemahkan IP Private menjadi IP Public, sehingga perangkat di jaringan lokal dapat mengakses layanan internet seperti Google, YouTube, dan lain-lain.
+Selamat datang di section selanjutnya! Kali ini kita akan membahas salah satu materi paling fundamental dan penting di dunia jaringan: **Network Address Translation** atau **NAT**.
 
-Secara umum, NAT memiliki dua fungsi utama:
-1. **Menghemat penggunaan IP Public** – banyak perangkat di LAN dapat berbagi satu IP Public.
-2. **Memberikan keamanan tambahan** – alamat IP asli perangkat di dalam jaringan tidak langsung terlihat dari luar.
+Pernah bertanya-tanya bagaimana jutaan perangkat di rumah atau kantor kita yang menggunakan IP *private* (seperti `192.168.x.x`) bisa mengakses internet yang hanya mengenali IP *public*? Jawabannya adalah NAT!
 
-Pada praktik kali ini, kita akan mempelajari dan mengonfigurasi **Dynamic NAT (Many-to-One)** dan **Static NAT (One-to-One)** menggunakan topologi yang sudah disiapkan.  
+**NAT adalah sebuah proses pada router yang bertugas menerjemahkan alamat IP private menjadi alamat IP public, dan sebaliknya.** Dengan begitu, perangkat-perangkat di jaringan lokal kita bisa "meminjam" IP public milik router untuk berkomunikasi dengan dunia luar, seperti mengakses Google, YouTube, dan layanan lainnya.
 
----
+Ada dua jenis NAT yang akan kita pelajari:
+1.  **Dynamic NAT (PAT)**: Menerjemahkan *banyak* IP private ke *satu* IP public. Ini yang paling umum digunakan.
+2.  **Static NAT**: Menerjemahkan *satu* IP private ke *satu* IP public secara spesifik.
 
-## 📌 1. Dynamic NAT (Many-to-One)
-
-Dynamic NAT atau PAT (**Port Address Translation**) memungkinkan banyak IP Private diterjemahkan menjadi **satu** IP Public secara bersamaan.  
-Di sini kita akan menggunakan topologi berikut:  
-🔗 [Topologi Dynamic NAT](https://drive.google.com/open?id=1VnyfSnWxIAAwnj6syvxmq9UlxpkXTMu_&usp=drive_fs)
-
-### **Device dan Ketentuan:**
-
-1. **Server (Google Server)**
-   - Analogi: Server Google yang akan diakses oleh komputer klien
-   - IP: `172.16.10.2/24`
-   - Gateway: `172.16.10.1`
-
-2. **R1 (Router Google)**
-   - IP: `172.16.10.1/24` (fa0/0)  
-   - IP: `10.10.10.1/24` (fa0/1) → menuju Router ISP
-   - Konfigurasi **BGP AS 1**
-
-3. **R2 (Router ISP)**
-   - IP: `10.10.10.2/24` (fa0/0)  
-   - IP: `10.20.20.1/24` (fa0/1) → menuju Router Client
-   - Konfigurasi **BGP AS 2**
-
-4. **R3 (Router Client)**
-   - IP: `10.20.20.2/24` (fa0/0) → menuju Router ISP
-   - IP: `192.168.10.1/24` (fa0/1.10) → VLAN 10
-   - IP: `192.168.20.1/24` (fa0/1.20) → VLAN 20
-   - Menyediakan **DHCP Server** untuk klien
-
-5. **Switch**
-   - Menghubungkan antar VLAN dalam kantor
-   - VLAN 10 dan VLAN 20
+Biar nggak pusing, kita langsung praktik saja!
 
 ---
 
-### **Konfigurasi BGP**
+## Dynamic NAT (PAT - Port Address Translation)
 
-**R1 (Router Google)**:
-```
+Ini adalah jenis NAT yang paling sering kita temui, di mana banyak klien di jaringan lokal bisa mengakses internet secara bersamaan hanya dengan menggunakan satu alamat IP public. Metode ini juga sering disebut **NAT Overload**.
+
+### Topologi Laboratorium
+
+Kita akan menggunakan topologi berikut untuk simulasi.
+[Link Topologi](https://drive.google.com/open?id=1VnyfSnWxIAAwnj6syvxmq9UlxpkXTMu_&usp=drive_fs)
+
+**Peran Setiap Perangkat:**
+-   **Server Google (`172.16.10.2/24`)**: Kita anggap ini adalah server Google yang akan kita akses.
+-   **R1 (Router Google)**: Router milik Google, terhubung ke internet. Menggunakan BGP AS 1.
+-   **R2 (Router ISP)**: Router milik penyedia layanan internet. Menggunakan BGP AS 2.
+-   **R3 (Router Client)**: Router di kantor kita. Di sinilah kita akan mengkonfigurasi NAT.
+-   **Switch & PCs**: Jaringan lokal kita dengan VLAN 10 dan 20.
+
+### Konfigurasi
+
+Kita asumsikan konfigurasi dasar (IP address, VLAN, DHCP) sudah selesai. Kita akan fokus pada routing (BGP) dan NAT-nya.
+
+#### 1. Konfigurasi Routing (BGP & Default Route)
+
+Agar semua router bisa saling bertukar informasi jaringan, kita gunakan BGP antara R1 dan R2. Lalu, R3 akan kita beri *default route* ke arah ISP.
+
+**R1 (Router Google):**
+```cisco
 router bgp 1
  neighbor 10.10.10.2 remote-as 2
- network 10.10.10.0 mask 255.255.255.0
  network 172.16.10.0 mask 255.255.255.0
 ```
 
-**R2 (Router ISP)**:
-```
+**R2 (Router ISP):**
+```cisco
 router bgp 2
  neighbor 10.10.10.1 remote-as 1
- network 10.10.10.0 mask 255.255.255.0
  network 10.20.20.0 mask 255.255.255.0
 ```
 
----
-
-### **Konfigurasi NAT Dynamic di R3 (Router Client)**
-
-**Default Route**:
-```
+**R3 (Router Client):**
+```cisco
+! Default route ini memberitahu R3, "untuk ke tujuan manapun,
+! kirim saja paketnya ke router ISP (10.20.20.1)"
 ip route 0.0.0.0 0.0.0.0 10.20.20.1
 ```
 
-**Access List untuk NAT**:
-```
-access-list 1 permit 192.168.10.0 0.0.0.255
-access-list 1 permit 192.168.20.0 0.0.0.255
+#### 2. Konfigurasi NAT di R3
+
+Ini dia bagian intinya!
+
+**Langkah 1: Tentukan IP Private mana yang boleh di-NAT.**
+Kita menggunakan Access List untuk menandai jaringan lokal kita (VLAN 10 dan 20).
+```cisco
+R3(config)# access-list 1 permit 192.168.10.0 0.0.0.255
+R3(config)# access-list 1 permit 192.168.20.0 0.0.0.255
 ```
 
-**NAT Configuration**:
-```
-ip nat inside source list 1 interface fa0/0 overload
-```
-
-**Menentukan Interface NAT**:
-```
-interface fa0/0
- ip nat outside
-exit
-interface fa0/1.10
- ip nat inside
-exit
-interface fa0/1.20
- ip nat inside
+**Langkah 2: Buat Aturan NAT.**
+Perintah ini artinya: "Terjemahkan semua IP sumber (`source`) yang ada di `list 1` ke alamat IP yang menempel di interface `fa0/0` ketika paket keluar. `overload` berarti banyak-ke-satu."
+```cisco
+R3(config)# ip nat inside source list 1 interface FastEthernet0/0 overload
 ```
 
-💡 **Catatan:** Pastikan `ip nat inside` diterapkan pada interface yang mengarah ke jaringan lokal, dan `ip nat outside` pada interface yang mengarah ke jaringan publik/ISP.
+**Langkah 3: Tentukan Interface "Dalam" dan "Luar".**
+Kita harus memberitahu router, mana sisi jaringan lokal (dalam/inside) dan mana sisi internet (luar/outside).
+```cisco
+! Fa0/0 adalah interface yang mengarah ke ISP (internet)
+R3(config)# interface fa0/0
+R3(config-if)# ip nat outside
+R3(config-if)# exit
+
+! Fa0/1.10 adalah interface yang mengarah ke VLAN 10 (lokal)
+R3(config)# interface fa0/1.10
+R3(config-if)# ip nat inside
+R3(config-if)# exit
+
+! Fa0/1.20 adalah interface yang mengarah ke VLAN 20 (lokal)
+R3(config)# interface fa0/1.20
+R3(config-if)# ip nat inside
+R3(config-if)# exit
+```
+
+Selesai! Sekarang coba kirim paket dari PC mana pun ke Server Google. Gunakan mode simulasi di Packet Tracer untuk melihat keajaibannya. Kamu akan lihat saat paket meninggalkan R3, IP sumbernya berubah dari IP private (`192.168.x.x`) menjadi IP public R3 (`10.20.20.2`).
+
+[Gambar dari proses NAT di Packet Tracer](https://drive.google.com/open?id=1E0l695JREDgLTbmGf_bbnyPJrUWCmdY8&usp=drive_fs)
 
 ---
 
-## 📌 2. Static NAT (One-to-One)
+## Static NAT (One-to-One)
 
-Static NAT menerjemahkan **satu IP Private** menjadi **satu IP Public** secara permanen.  
-Biasanya digunakan jika kita ingin **server lokal dapat diakses dari internet**.
+Bagaimana jika sebaliknya? Kita punya server di jaringan lokal (misal, web server perusahaan) dan ingin orang dari internet bisa mengaksesnya. Di sinilah **Static NAT** berperan.
 
-🔗 [Topologi Static NAT](https://drive.google.com/open?id=1RHFhZBQTm8xBvDlsMtwbqbbDy8XLOCAg&usp=drive_fs)
+Static NAT membuat pemetaan permanen 1-ke-1 antara IP private internal dengan IP public eksternal.
 
-### **Device dan Ketentuan:**
+### Topologi Laboratorium
 
-1. **Server Lokal**
-   - IP: `192.168.30.2/24`
-   - Gateway: `192.168.30.1`
+Kita akan menambahkan satu server lokal ke topologi kita.
+[Link Topologi Static NAT](https://drive.google.com/open?id=1RHFhZBQTm8xBvDlsMtwbqbbDy8XLOCAg&usp=drive_fs)
 
-2. **R3 (Router Client)**
-   - VLAN 30 untuk server lokal:
-     ```
-     interface fa0/1.30
-      encapsulation dot1q 30
-      ip address 192.168.30.1 255.255.255.0
-     exit
-     ```
-   - NAT Static:
-     ```
-     ip nat inside source static 192.168.30.2 10.20.20.3
-     ```
-   - Menentukan Interface NAT:
-     ```
-     interface fa0/1.30
-      ip nat inside
-     interface fa0/0
-      ip nat outside
-     ```
+**Penambahan:**
+-   **Server Lokal**: IP `192.168.30.2/24`, berada di VLAN 30.
+-   **Tujuan**: Server ini harus bisa diakses dari internet (misal, dari "Server Google") menggunakan alamat IP public `10.20.20.3`.
 
-💡 **Penjelasan:**  
-Dengan konfigurasi ini, setiap permintaan ke IP Public `10.20.20.3` akan langsung diteruskan ke server lokal `192.168.30.2`.
+### Konfigurasi Static NAT di R3
 
----
+Kita asumsikan VLAN 30 dan sub-interface `fa0/1.30` sudah dikonfigurasi di R3.
 
-## 🎯 Pengujian
-- Untuk **Dynamic NAT**, coba kirimkan paket dari komputer VLAN 10 atau VLAN 20 menuju server Google (`172.16.10.2`) dan amati di mode *Simulation*.  
-  Anda akan melihat IP Private diterjemahkan menjadi IP Public milik Router Client.  
+**Langkah 1: Buat Aturan Static NAT.**
+Perintah ini sangat lugas: "Buat pemetaan NAT statis. Jika ada paket dari luar menuju IP public `10.20.20.3`, terjemahkan tujuannya ke IP private `192.168.30.2`."
+```cisco
+R3(config)# ip nat inside source static 192.168.30.2 10.20.20.3
+```
+*Catatan: Kita menggunakan IP `10.20.20.3` yang berada dalam satu subnet dengan IP utama router, seolah-olah kita punya cadangan IP public dari ISP.*
 
-- Untuk **Static NAT**, coba akses IP Public `10.20.20.3` dari jaringan luar (misalnya di Router Google) dan pastikan dapat membuka web server lokal.
+**Langkah 2: Definisikan Interface NAT.**
+Jangan lupa menandai interface baru kita sebagai `ip nat inside`.
+```cisco
+R3(config)# interface fa0/1.30
+R3(config-if)# ip nat inside
+R3(config-if)# exit
+```
+Interface `fa0/0` sudah kita set sebagai `ip nat outside` sebelumnya, jadi tidak perlu diubah.
 
----
+Sekarang, coba buka browser di "Server Google" dan akses alamat `http://10.20.20.3`. Harusnya kamu akan melihat halaman web dari server lokal kita! Ini membuktikan bahwa permintaan dari luar berhasil diterjemahkan dan diteruskan ke server internal.
 
-## 📚 Kesimpulan
-- **Dynamic NAT** cocok untuk klien yang hanya mengakses internet (Many-to-One).  
-- **Static NAT** cocok untuk server lokal yang harus diakses dari luar (One-to-One).  
-- Pemahaman perbedaan ini penting agar konfigurasi NAT sesuai kebutuhan jaringan.
+[Gambar hasil akses web server via Static NAT](https://drive.google.com/open?id=1f0JMSP5X0Sv_nQJGsT33Laj0zZFSQ6w0&usp=drive_fs)
+
+Itu dia, teman-teman! Kamu sudah berhasil mengkonfigurasi dua jenis NAT yang paling fundamental. Memahami NAT adalah kunci untuk menghubungkan jaringan lokal ke dunia yang lebih luas. Terus berlatih dan tetap semangat!
