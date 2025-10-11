@@ -63,7 +63,7 @@ Secara default, PC atau Laptop di Packet Tracer menggunakan interface LAN (kabel
 6.  **Nyalakan kembali** perangkat.
 
 Untuk lebih jelasnya, Anda bisa mengikuti contoh pada GIF berikut:
-* **Contoh Penggantian Interface:** [Lihat GIF Tutorial](https://drive.google.com/open?id=1boJJvRRTchsyQ4EAjOYNd6_QEVtge0LF&usp=drive_fs)
+* **Contoh Penggantian Interface:** [Lihat GIF Tutorial](https://tinyurl.com/29w4b45h)
 
 ### b. Menghubungkan ke Jaringan Wireless
 
