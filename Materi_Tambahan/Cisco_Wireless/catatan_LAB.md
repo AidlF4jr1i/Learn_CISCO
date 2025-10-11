@@ -34,7 +34,7 @@ Atur konfigurasi sesuai dengan panduan pada gambar berikut:
 
 ### b. Pengaturan Jaringan Wireless
 
-Selanjutnya, navigasikan ke menu **'Wireless'**. Pada bagian ini, kita akan mengonfigurasi nama jaringan, kanal, dan keamanannya.
+Selanjutnya, navigasikan ke menu **'Wireless'** dan **'Wireless Security'**. Pada kedua bagian ini, kita akan mengonfigurasi nama jaringan, kanal, dan keamanannya.
 
 * **Network Name (SSID):** Ini adalah nama jaringan Wi-Fi Anda yang akan terlihat oleh perangkat lain. Anda bisa menyesuaikannya sesuai keinginan (contoh: `HOME_WIFI`).
 * **Channel:** Biarkan pada pengaturan 'Auto' agar router dapat memilih kanal frekuensi yang paling sedikit interferensinya secara otomatis.
@@ -43,6 +43,8 @@ Selanjutnya, navigasikan ke menu **'Wireless'**. Pada bagian ini, kita akan meng
 
 Sesuaikan konfigurasi Anda seperti pada contoh di gambar ini:
 * **Gambar Konfigurasi Wireless:** [Lihat Pengaturan Wireless](https://drive.google.com/open?id=1uKFLLYbz3KH0ybYGOq2XaXkEWIyvnsHl&usp=drive_fs)
+
+* **Gambar Konfigurasi Wireless Security:** [Lihat Pengaturan Security](https://drive.google.com/open?id=1Lc9Ibc_ETy5bEDvterxAh9EW_vxnjXlH&usp=drive_fs)
 
 Setelah selesai, jangan lupa untuk menyimpan pengaturan (*Save Settings*).
 
