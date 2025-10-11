@@ -71,7 +71,7 @@ Setelah interface diganti, hubungkan perangkat ke jaringan:
 1.  Pada perangkat yang sama, buka tab **'Desktop'**.
 2.  Pilih aplikasi **'PC Wireless'**.
 3.  Klik tab **'Connect'**.
-4.  Tunggu beberapa saat, lalu klik **'Refresh'**. Anda akan melihat daftar jaringan yang tersedia.
+4.  Tunggu beberapa sat, lalu klik **'Refresh'**. Anda akan melihat daftar jaringan yang tersedia.
 5.  Pilih SSID yang sudah Anda buat sebelumnya, lalu klik **'Connect'**.
 6.  Masukkan *passphrase* (kata sandi) yang telah Anda atur di router.
 
