@@ -1,0 +1,3 @@
+# Pengenalan BGP
+
+Border Gateway Protocol(BGP) adalah sebuah Routing Protokol berbasis EGP(Exterior Gateway Protocol) yang digunakan untuk menghubungkan jaringan antar autonomus system atau simpelnya antar perusahaan, nah apa itu contoh dari AS?, buat yang belum tahu Internet itu adlaahs alah satu contoh dari komunikasi antar_AS artinya Internet adalah kumpulan AS yang saling terhubung. nah ada lagi yang namanya AS Number, apa itu?, AS Number adalah sebuah nomor yang digunakan untuk terhubung antar BGP ibaratnya seperti Kartu namanya lah AS Number ini
