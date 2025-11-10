@@ -1,1 +1,1 @@
-# Pengenalan BGP
+# Pengenalan LAB2 BGP
